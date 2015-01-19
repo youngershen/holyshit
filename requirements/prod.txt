@@ -1,10 +1,17 @@
 #django
 django==1.7.3
+
 #jinja2
 jinja2==2.7.3
+
 #mysql-python
 mysql-python==1.2.5
+
 #python-cjson
 python-cjson==1.1.0
+
 #coffin
 coffin==0.3.8
+
+#django-environ
+django-environ==0.3.0

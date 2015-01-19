@@ -3,6 +3,8 @@
 *.pyc
 *.pyo
 .DS_Store
+*.sqlite3
+*.sqilte
 env
 node_modules
 .idea

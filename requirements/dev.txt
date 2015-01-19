@@ -1,1 +1,4 @@
 -r prod.txt
+
+#django-deubg-toolbar
+django-debug-toolbar==1.2.2
