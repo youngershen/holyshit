@@ -15,11 +15,10 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
+#BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 import environ
+BASE_DIR = str(environ.Path(__file__) - 3)
 env = environ.Env()
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
@@ -31,7 +30,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['holyshit.io']
 
 
 # Application definition
@@ -43,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core',
     'bbs'
 )
 
@@ -64,16 +64,9 @@ WSGI_APPLICATION = 'holyshit.wsgi.application'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
-
-#LANGUAGE_CODE = 'en-us'
-_ =lambda s:s
-#LANGUAGE_CODE = 'zh_CN'
-
-RRRGUAGES = (
-        ('cn', _('China')),
-
-        )
-LOCALE_PATHS=(BASE_DIR + "/locale", )
+_ = lambda s: s
+RRRGUAGES = (('cn', _('China')), )
+LOCALE_PATHS = (BASE_DIR + "/locale", )
 
 
 TIME_ZONE = 'UTC'
@@ -89,3 +82,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR + "/static"
+
+# auth user
+# AUTH_USER_MODEL = 'core.Member'
+
+# media
+MEDIA_ROOT = BASE_DIR + "/media"
+MEDIA_URL = '/media/'
+
+# template
+TEMPLATE_DIRS = (BASE_DIR + '/templates', )

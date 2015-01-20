@@ -2,3 +2,9 @@
 
 #django-deubg-toolbar
 django-debug-toolbar==1.2.2
+
+#django-extensions
+django-extensions==1.4.9
+
+#ipython
+ipython==2.3.1

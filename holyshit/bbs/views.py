@@ -1,5 +1,4 @@
 from django.shortcuts import render
-
 # Create your views here.
 def bbs(request):
-    return render(request, 'index.html')
+    return render(request, 'bbs/index.html')
