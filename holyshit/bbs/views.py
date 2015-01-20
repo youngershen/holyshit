@@ -78,7 +78,7 @@ class ThreadIndexView(ListView):
 
 class BbsIndexView(TemplateView):
     template_name = 'bbs/index.html'
-    http_method_names = ['GET']
+    # http_method_names = ['GET', 'POST']
 
     def get_context_data(self, **kwargs):
         boards = Board.objects.order_by('-created_at')
