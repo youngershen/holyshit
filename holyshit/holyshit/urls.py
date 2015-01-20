@@ -1,12 +1,13 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
-from django.conf.urls.static import  static
+from django.conf.urls.static import static
+import bbs.urls
 
 urlpatterns = patterns('',
+                       url(r'^$', 'core.views.index'),
                        url(r'^admin/', include(admin.site.urls)),
-                       url(r'bbs/', 'bbs.views.bbs')
-
+                       url(r'bbs/', include(bbs.urls, namespace='bbs', app_name='bbs')),
                        )
 
 
