@@ -4,14 +4,9 @@
 # AUTHOR       : younger shen
 
 from django.conf.urls import patterns, url
-from .views import BoardIndexView
-from .views import ThreadIndexView
-from .views import ThreadAddView
-from .views import BbsIndexView
 
 urlpatterns = patterns('bbs.views',
-                       url(r'^$', BbsIndexView.as_view(), name='bbs_index'),
-                       url(r'thread/add/$', ThreadAddView.as_view(), name='bbs_thread_add'),
-                       url(r'board/(?P<slug>[-a-zA-Z0-9]+)/$', BoardIndexView.as_view(), name='bbs_board'),
-                       url(r'thread/(?P<slug>[-a-zA-Z0-9]+)/$', ThreadIndexView.as_view(), name='bbs_thread')
+                       url(r'^$', 'bbs_index', name='bbs_index'),
+                       url(r'board/(?P<slug>[-a-zA-Z0-9]+)/$', 'board_index', name='bbs_board_index'),
+                       url(r'thread/(?P<slug>[-a-zA-Z0-9]+)/$', 'thread_index', name='bbs_thread_index')
                        )
