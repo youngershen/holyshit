@@ -3,7 +3,7 @@
 # FILE_NAME    :
 # AUTHOR       : younger shen
 
-from django.http import Http404, HttpResponse, JsonResponse
+from django.http import Http404, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_POST
 from django.views.decorators.http import require_GET
@@ -12,6 +12,7 @@ from .models import Board
 from .models import Thread
 from .forms import ThreadForm
 from core.models import SiteSettings
+
 
 @require_GET
 def bbs_index_view(request):
@@ -28,9 +29,7 @@ def bbs_index_view(request):
     else:
         sitesetting = dict(site_title=settings.SITE_TITLE)
 
-    thread = Thread.objects.order_by('-created_at')[0]
-
-    return render(request, 'bbs/index.html', dict(thread=thread, boards=boards, threads=threads, sitesetting=sitesetting))
+    return render(request, 'bbs/index.html', dict(boards=boards, threads=threads, sitesetting=sitesetting))
 
 
 @require_GET
@@ -40,19 +39,23 @@ def board_index_view(request, slug):
     except Board.DoesNotExist:
         raise Http404
     else:
+        boards = Board.objects.order_by('-created_at')
         threads = board.threads.order_by('-created_at')
-        return render('bbs/board_index_view.html', dict(threads=threads))
+        board_name = board.name
+        return render(request, 'bbs/index.html', dict(boards=boards, board_name=board_name, threads=threads))
 
 
 @require_GET
 def thread_index_view(request, slug):
+    print slug
     try:
         thread = Thread.objects.get(slug=slug)
     except Thread.DoesNotExist:
         raise Http404
     else:
+        thread.add_click()
         threads = thread.children.order_by('-created_at')
-        return render('bbs/thread_index_view.html', dict(thread=thread, threads=threads))
+        return render(request, 'bbs/thread_index_view.html', dict(thread=thread, threads=threads))
 
 
 @require_POST
@@ -64,7 +67,16 @@ def thread_add_action(request):
     else:
         return JsonResponse(dict(state=False, errors=form.errors.as_json()))
 
+
 @require_GET
 def thread_add_view(request):
     form = ThreadForm()
     return render(request, 'bbs/thread_add_view.html', dict(form=form))
+
+
+@require_GET
+def board_hottest_view(request):
+    threads = Thread.objects.order_by('-click')
+    boards = Board.objects.order_by('-created_at')
+    board_name = 'hottest'
+    return render(request, 'bbs/index.html', dict(boards=boards, threads=threads, board_name=board_name))

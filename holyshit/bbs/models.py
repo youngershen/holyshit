@@ -15,7 +15,7 @@ class Board(Entity):
     slug = models.CharField(_('board slug'), max_length=255, unique=True, null=True, blank=True)
 
     def get_absolute_url(self):
-        return reverse('bbs:bbs_board', args=(self.slug,))
+        return reverse('bbs:bbs_board_index_view', args=(self.slug,))
 
     def save(self, *args, **kwargs):
         self.slug = '-'.join(unicode(unidecode(self.name)).split(' ')).lower() + str(int(time.time()))
@@ -40,15 +40,21 @@ class Thread(Entity):
     content = models.TextField(_('thread content'))
     image = ImageField(_('thread image'), upload_to='thread/%Y/%m/%d', null=True, blank=True)
     slug = models.CharField(_('thread slug'), max_length=255, unique=True, null=True, blank=True)
+    click = models.BigIntegerField(_('thread click times'), default=0)
 
     board = models.ForeignKey('Board', related_name='threads', on_delete=models.CASCADE, blank=True, null=True)
     parent = models.ForeignKey('self', related_name='children', null=True, blank=True, on_delete=models.SET_NULL)
+
+    def add_click(self):
+        self.click = self.click + 1
+        self.save()
 
     def get_absolute_url(self):
         return reverse('bbs:bbs_thread', args=(self.slug,))
 
     def save(self, *args, **kwargs):
-        self.slug = '-'.join(unicode(unidecode(self.title)).split(' ')).lower() + str(int(time.time()))
+        if not self.slug:
+            self.slug = '-'.join(unicode(unidecode(self.title)).split(' ')).lower() + str(int(time.time()))
         super(Thread, self).save(*args, **kwargs)
 
     def __str__(self):

@@ -30,104 +30,86 @@
         <div class="row">
             <div class=" col-sm-3 col-md-2 sidebar">
                 <ul class="nav nav-sidebar">
-                    <li class="active"><a href="#">刀塔</a></li>
-                    <li><a href="#">魔兽世界</a></li>
-                    <li><a href="#">动漫</a></li>
-                    <li><a href="#">游戏</a></li>
+
+                    {% if board_name == 'hottest' %}
+                        <li class="active"><a href="{% url 'bbs:board_hottest_view' %}">最热</a></li>
+                    {% else %}
+                        <li><a href="{% url 'bbs:board_hottest_view' %}">最热</a></li>
+                    {% endif %}
+
+                    {% for board in boards %}
+                        {% if board.name == board_name %}
+                            <li class="active"><a href="#">{{ board.name }}</a></li>
+                        {% else %}
+                            <li><a href="{{ board.get_absolute_url }}">{{ board.name }}</a></li>
+                        {% endif %}
+                    {% endfor %}
                 </ul>
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main well">
-                <div class="">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <span>题目 姓名:你爹 14/05/18(日)16:10:00 IP:221.170.*(mesh.ad.jp) No.86767 <a href="">del1400397000151.jpg</a></span>
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <a href="/media/{{ thread.image }}" class="thumbnails" target="_blank">
-                                        {% thumbnail thread.image "300x200" crop="center" as im %}
-                                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-                                        {% endthumbnail %}
-                                    </a>
-                                </div>
-                                <div class="col-md-5">
-                                    <p>
-                                        水电费是是 水电费是否水电费大声道
-                                    </p>
+                {% for thread in threads %}
+                    <div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span>
+                                    主题:
+                                    {% if thread.title %}
+                                        {{ thread.title }}
+                                    {% else %}
+                                        unknow
+                                    {% endif %}
+                                    作者:
+                                    {% if thread.author %}
+                                    {{ thread.author }}
+                                    {% else %}
+                                        {% trans 'unknown' %}
+                                    {% endif %}
+                                    时间:
+                                    {{ thread.created_at }}
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <a href="/media/{{ thread.image }}" class="thumbnails" target="_blank">
+                                            {% thumbnail thread.image "300x200" crop="center" as im %}
+                                                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                            {% endthumbnail %}
+                                        </a>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <p>
+                                            {{ thread.content }}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                 <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <span>题目 姓名:你爹 14/05/18(日)16:10:00 IP:221.170.*(mesh.ad.jp) No.86767 <a href="">del1400397000151.jpg</a></span>
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <a href="/media/{{ thread.image }}" class="thumbnails" target="_blank">
-                                        {% thumbnail thread.image "300x200" crop="center" as im %}
-                                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-                                        {% endthumbnail %}
-                                    </a>
-                                </div>
-                                <div class="col-md-5">
-                                    <p>
-                                        水电费是是 水电费是否水电费大声道
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                 <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <span>题目 姓名:你爹 14/05/18(日)16:10:00 IP:221.170.*(mesh.ad.jp) No.86767 <a href="">del1400397000151.jpg</a></span>
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <a href="/media/{{ thread.image }}" class="thumbnails" target="_blank">
-                                        {% thumbnail thread.image "300x200" crop="center" as im %}
-                                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-                                        {% endthumbnail %}
-                                    </a>
-                                </div>
-                                <div class="col-md-5">
-                                    <p>
-                                        水电费是是 水电费是否水电费大声道
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                 <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <span>题目 姓名:你爹 14/05/18(日)16:10:00 IP:221.170.*(mesh.ad.jp) No.86767 <a href="">del1400397000151.jpg</a></span>
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <a href="/media/{{ thread.image }}" class="thumbnails" target="_blank">
-                                        {% thumbnail thread.image "300x200" crop="center" as im %}
-                                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-                                        {% endthumbnail %}
-                                    </a>
-                                </div>
-                                <div class="col-md-5">
-                                    <p>
-                                        水电费是是 水电费是否水电费大声道
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                {% endfor %}
+                <div>
+                    <nav>
+                        <ul class="pagination">
+                            <li class="disabled">
+                                <a href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+
+                            <li class="active"><a href="#">1</a></li>
+                            <li ><a href="#">2</a></li>
+
+                            <li>
+                                <a aria-label="Next" href="#">
+                                    <span aria-hidden="true">»</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
     </div>
-
-
 {% endblock %}
 
 {% block footer %}
