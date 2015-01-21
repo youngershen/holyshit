@@ -90,15 +90,20 @@
                 <div>
                     <nav>
                         <ul class="pagination">
-                            <li class="disabled">
-                                <a href="#" aria-label="Previous">
+                            <li >
+                                <a href="/?page="{{ prev_page }} aria-label="Previous">
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
-                            <li class="active"><a href="#">1</a></li>
-                            <li ><a href="#">2</a></li>
+                            {% for page in page_list %}
+                                {% if page == page_number %}
+                                    <li class="active"><a href="/?page={{ page }}">{{ page }}</a></li>
+                                {% else %}
+                                    <li><a href="/?page={{ page }}">{{ page }}</a></li>
+                                {% endif %}
+                            {% endfor %}
                             <li>
-                                <a aria-label="Next" href="#">
+                                <a aria-label="Next" href="/?page={{ next_page }}">
                                     <span aria-hidden="true">»</span>
                                 </a>
                             </li>

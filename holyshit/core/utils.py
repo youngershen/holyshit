@@ -10,6 +10,8 @@ sitesetting = SiteSettings.objects.order_by('created_at')[0]
 
 def paginator(queryset):
     page_size = sitesetting.page_size
+    print "======="
+    print page_size
     pager = Paginator(queryset, page_size)
     return pager
 
@@ -39,7 +41,7 @@ def bootstrap_pager(request, queryset):
             next_page = -1
 
         # compute the page length
-        page_length = 1
+        page_length = 5
         page_list = list()
         left_page = page_length if page_number - page_length > 0 else page_number - 1
         right_page = page_length if page_number + page_length <= count else count - page_number
