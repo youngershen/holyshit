@@ -19,7 +19,7 @@ class SiteSettings(Entity):
     site_title = models.CharField(_('site title'), max_length=255)
     analytics_code = models.TextField(_('site analytics code'), blank=True, null=True)
     Announcement = models.TextField(_('site announcement'), blank=True, null=True)
-    thread_page_size = models.IntegerField(_('thread page size'), default=20)
+    page_size = models.IntegerField(_('thread page size'), default=20)
 
     def __str__(self):
         return self.site_title

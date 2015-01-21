@@ -13,6 +13,8 @@ from .models import Thread
 from .forms import ThreadForm
 from core.models import SiteSettings
 
+sitesettings = SiteSettings.objects.order_by('-created_at')[0]
+
 
 @require_GET
 def bbs_index_view(request):
