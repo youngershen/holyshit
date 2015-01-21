@@ -5,7 +5,7 @@
     <title></title>
 </head>
 <body>
-<form action="" method="POST">
+<form action="{% url 'bbs:bbs_thread_add_action' %}" method="POST">
     {% csrf_token %}
     {{ form | safe }}
     <br/>

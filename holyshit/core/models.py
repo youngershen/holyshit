@@ -13,3 +13,14 @@ class Entity(models.Model):
 
     class Meta:
         abstract = True
+
+
+class SiteSettings(Entity):
+    site_title = models.CharField(_('site title'), max_length=255)
+    analytics_code = models.TextField(_('site analytics code'), blank=True, null=True)
+    Announcement = models.TextField(_('site announcement'), blank=True, null=True)
+
+
+class Advertisement(Entity):
+    name = models.CharField(_('ad name'), max_length=255)
+    code = models.TextField(_('add code'), blank=True, null=True)
