@@ -20,7 +20,19 @@ class SiteSettings(Entity):
     analytics_code = models.TextField(_('site analytics code'), blank=True, null=True)
     Announcement = models.TextField(_('site announcement'), blank=True, null=True)
 
+    def __str__(self):
+        return self.site_title
+
+    def __unicode__(self):
+        return self.__str__()
+
 
 class Advertisement(Entity):
     name = models.CharField(_('ad name'), max_length=255)
     code = models.TextField(_('add code'), blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    def __unicode__(self):
+        return self.__str__()

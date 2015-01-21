@@ -25,5 +25,6 @@ DATABASES = {
 MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware', )
 INSTALLED_APPS += ('debug_toolbar',)
 INSTALLED_APPS += ('django_extensions',)
+THUMBNAIL_DEBUG = True
 
 

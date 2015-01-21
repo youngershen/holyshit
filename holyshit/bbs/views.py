@@ -2,18 +2,35 @@
 # PROJECT_NAME : holyshit
 # FILE_NAME    :
 # AUTHOR       : younger shen
-from coffin.shortcuts import render
+
 from django.http import Http404, HttpResponse, JsonResponse
+from django.shortcuts import render
 from django.views.decorators.http import require_POST
 from django.views.decorators.http import require_GET
+from django.conf import settings
 from .models import Board
 from .models import Thread
 from .forms import ThreadForm
-
+from core.models import SiteSettings
 
 @require_GET
 def bbs_index_view(request):
-    return HttpResponse('index')
+    boards = Board.objects.order_by('-created_at')
+    if boards.count() > 0:
+        threads = boards[0].threads.order_by('-created_at')
+    else:
+        threads = []
+
+    sitesttings = SiteSettings.objects.order_by('created_at')
+
+    if sitesttings.count() > 0:
+        sitesetting = sitesttings[0]
+    else:
+        sitesetting = dict(site_title=settings.SITE_TITLE)
+
+    thread = Thread.objects.order_by('-created_at')[0]
+
+    return render(request, 'bbs/index.html', dict(thread=thread, boards=boards, threads=threads, sitesetting=sitesetting))
 
 
 @require_GET

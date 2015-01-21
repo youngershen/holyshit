@@ -42,6 +42,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'compressor',
+    'sorl.thumbnail',
     'core',
     'bbs'
 )
@@ -93,3 +95,16 @@ MEDIA_URL = '/media/'
 
 # template
 TEMPLATE_DIRS = (BASE_DIR + '/templates', )
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
+
+COMPRESS_OFFLINE_CONTEXT = {
+    'path_to_files': BASE_DIR + '/static-site',
+}
+
+# site title
+SITE_TITLE = "9chan"

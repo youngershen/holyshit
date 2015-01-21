@@ -3,6 +3,7 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from unidecode import unidecode
+from sorl.thumbnail import ImageField
 # Create your models here.
 from core.models import Entity
 
@@ -37,7 +38,7 @@ class Thread(Entity):
     author = models.CharField(_('thread author'), max_length=255, blank=True, null=True)
     ipaddress = models.IPAddressField(_('thread author\'s ip address'), max_length=255, null=True, blank=True)
     content = models.TextField(_('thread content'))
-    image = models.ImageField(_('thread image'), upload_to='thread/%Y/%m/%d', null=True, blank=True)
+    image = ImageField(_('thread image'), upload_to='thread/%Y/%m/%d', null=True, blank=True)
     slug = models.CharField(_('thread slug'), max_length=255, unique=True, null=True, blank=True)
 
     board = models.ForeignKey('Board', related_name='threads', on_delete=models.CASCADE, blank=True, null=True)

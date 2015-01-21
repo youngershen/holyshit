@@ -2,7 +2,7 @@
 django==1.7.3
 
 #jinja2
-jinja2==2.7.3
+#jinja2==2.7.3
 
 #mysql-python
 mysql-python==1.2.5
@@ -11,10 +11,16 @@ mysql-python==1.2.5
 python-cjson==1.1.0
 
 #coffin
-coffin==0.3.8
+#coffin==0.3.8
 
 #django-environ
 django-environ==0.3.0
 
 #unidecode
 unidecode==0.4.71
+
+#django-compressor
+django-compressor==1.4
+
+#thumb pic
+sorl-thumbnail==12.2

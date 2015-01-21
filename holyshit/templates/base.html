@@ -1,9 +1,18 @@
 {% load static %}
-
+{% load compress %}
+<!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="9chan">
+        <meta name="author" content="younger shen">
+        <meta nam="tile" content="{% block site_title %} 9chan {% endblock %}">
         <link rel="stylesheet" href="{% static 'libs/boostrap/css/bootstrap.min.css' %}"/>
         <link rel="stylesheet" href="{% static 'libs/boostrap/css/bootstrap-theme.min.css' %}"/>
+        <link rel="stylesheet" href="{% static 'css/base.css' %}"/>
+
         {% block css %}{% endblock %}
     </head>
     <body>
@@ -17,3 +26,4 @@
         {% block footer %}{% endblock %}
     </footer>
 </html>
+
