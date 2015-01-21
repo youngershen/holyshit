@@ -12,6 +12,8 @@ from .models import Board
 from .models import Thread
 from .forms import ThreadForm
 from core.models import SiteSettings
+from core.utils import bootstrap_pager
+
 
 sitesettings = SiteSettings.objects.order_by('-created_at')[0]
 
@@ -81,4 +83,8 @@ def board_hottest_view(request):
     threads = Thread.objects.order_by('-click')
     boards = Board.objects.order_by('-created_at')
     board_name = 'hottest'
-    return render(request, 'bbs/index.html', dict(boards=boards, threads=threads, board_name=board_name))
+    page_info = bootstrap_pager(request, threads)
+    ret = dict(boards=boards, threads=page_info['objects'], board_name=board_name)
+    ret.update(page_info)
+    print ret
+    return render(request, 'bbs/index.html', ret)
