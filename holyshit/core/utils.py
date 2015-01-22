@@ -10,8 +10,6 @@ sitesetting = SiteSettings.objects.order_by('created_at')[0]
 
 def paginator(queryset):
     page_size = sitesetting.page_size
-    print "======="
-    print page_size
     pager = Paginator(queryset, page_size)
     return pager
 
