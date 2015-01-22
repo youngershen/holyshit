@@ -39,7 +39,7 @@ def bootstrap_pager(request, queryset):
             next_page = None
 
         # compute the page length
-        page_length = 5
+        page_length = sitesetting.page_length
         page_list = list()
         left_page = page_length if page_number - page_length > 0 else page_number - 1
         right_page = page_length if page_number + page_length <= count else count - page_number
