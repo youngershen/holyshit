@@ -5,6 +5,7 @@
 
 from django.http import Http404, JsonResponse
 from django.shortcuts import render
+from django.core.urlresolvers import reverse
 from django.views.decorators.http import require_POST
 from django.views.decorators.http import require_GET
 from django.conf import settings
@@ -46,7 +47,8 @@ def board_index_view(request, slug):
         boards = Board.objects.order_by('-created_at')
         threads = board.threads.order_by('-created_at')
         board_name = board.name
-        return render(request, 'bbs/index.html', dict(boards=boards, board_name=board_name, threads=threads))
+        base_url = reverse('bbs:bbs_board_index_view', args=(slug, ))
+        return render(request, 'bbs/index.html', dict(boards=boards, board_name=board_name, threads=threads, base_url=base_url))
 
 
 @require_GET
@@ -85,6 +87,7 @@ def board_hottest_view(request):
     board_name = 'hottest'
     page_info = bootstrap_pager(request, threads)
     ret = dict(boards=boards, threads=page_info['objects'], board_name=board_name)
+    base_url = reverse('bbs:board_hottest_view')
     ret.update(page_info)
-    print ret
+    ret.update(dict(base_url=base_url))
     return render(request, 'bbs/index.html', ret)

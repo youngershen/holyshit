@@ -27,16 +27,16 @@ def bootstrap_pager(request, queryset):
         raise Http404
     else:
         objects = current_page.object_list
-        count = pager.count
+        count = pager.num_pages
         if current_page.has_other_pages():
             prev_page = page_number - 1
         else:
-            prev_page = -1
+            prev_page = None
 
         if current_page.has_next():
             next_page = page_number + 1
         else:
-            next_page = -1
+            next_page = None
 
         # compute the page length
         page_length = 5

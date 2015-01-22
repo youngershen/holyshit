@@ -28,7 +28,7 @@
     </nav><!-- /.navbar -->
     <div class="container-fluid">
         <div class="row">
-            <div class=" col-sm-3 col-md-2 sidebar">
+            <div class=" col-sm-3 col-md-2 col-lg-2 sidebar">
                 <ul class="nav nav-sidebar">
 
                     {% if board_name == 'hottest' %}
@@ -46,7 +46,7 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main well">
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2  col-lg-10  main well">
                 {% for thread in objects %}
                     <div>
                         <div class="panel panel-default">
@@ -68,16 +68,18 @@
                                     {{ thread.created_at }}
                                 </span>
                             </div>
-                            <div class="panel-body">
+                            <div class="panel-body container-fluid">
                                 <div class="row">
-                                    <div class="col-md-3">
-                                        <a href="/media/{{ thread.image }}" class="thumbnails" target="_blank">
-                                            {% thumbnail thread.image "300x200" crop="center" as im %}
-                                                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-                                            {% endthumbnail %}
-                                        </a>
-                                    </div>
-                                    <div class="col-md-5">
+                                    {% if thread.image %}
+                                        <div class="col-md-3 col-sm-3">
+                                            <a href="/media/{{ thread.image }}" class="thumbnails" target="_blank">
+                                                {% thumbnail thread.image "300x200" crop="center" as im %}
+                                                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                                {% endthumbnail %}
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                    <div class="col-md-5 col-sm-5 ">
                                         <p>
                                             {{ thread.content }}
                                         </p>
@@ -90,20 +92,20 @@
                 <div>
                     <nav>
                         <ul class="pagination">
-                            <li >
-                                <a href="/?page="{{ prev_page }} aria-label="Previous">
+                            <li  {% if not prev_page %} class="disabled" {% endif %}>
+                                <a href="{% if not prev_page %}javascript:void(0);{% else %} {{ base_url }}?page={{ prev_page }}{% endif %}" aria-label="Previous">
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
                             {% for page in page_list %}
                                 {% if page == page_number %}
-                                    <li class="active"><a href="/?page={{ page }}">{{ page }}</a></li>
+                                    <li class="active"><a href="{{ base_url }}?page={{ page }}">{{ page }}</a></li>
                                 {% else %}
-                                    <li><a href="/?page={{ page }}">{{ page }}</a></li>
+                                    <li><a href="{{ base_url }}?page={{ page }}">{{ page }}</a></li>
                                 {% endif %}
                             {% endfor %}
-                            <li>
-                                <a aria-label="Next" href="/?page={{ next_page }}">
+                            <li {% if not next_page %} class="disabled" {% endif %}>
+                                <a aria-label="Next" href="{% if not next_page %}javascript:void(0);{% else %} {{ base_url }}?page={{ next_page }}{% endif %}">
                                     <span aria-hidden="true">»</span>
                                 </a>
                             </li>
