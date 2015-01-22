@@ -19,9 +19,13 @@
         {% block body %}{% endblock %}
     </body>
 
-    {% block javsscript %}{% endblock %}
     <script src="{% static 'libs/jquery/jquery-2.1.3.min.js' %}"></script>
+    <script src="{% static 'libs/jquery/jquery.cookie.js' %}"></script>
     <script src="{% static 'libs/boostrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/common/csrf.js' %}"></script>
+
+    {% block javascript %}{% endblock %}
+
     <footer>
         {% block footer %}{% endblock %}
     </footer>

@@ -133,51 +133,52 @@
                     <h4 class="modal-title" id="myModalLabel">{% trans 'NEW POST' %}</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="" class="form-horizontal">
+                    <form action="{% url 'bbs:bbs_thread_add_action' %}" class="form-horizontal" onsubmit="return false;" id="add_post_box_form">
                         <div class="form-group">
                             <label for="" class="control-label col-sm-2">Title</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="" placeholder="title"/>
+                                <input type="text" class="form-control" id="add_post_box_title" placeholder="title"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="control-label col-sm-2">Author</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="" placeholder="author"/>
+                                <input type="text" class="form-control" id="add_post_box_author" placeholder="author"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="control-label col-sm-2">Email</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="" placeholder="email"/>
+                                <input type="text" class="form-control" id="add_post_box_email" placeholder="email"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="control-label col-sm-2">Image</label>
                             <div class="col-sm-10">
-                                <input type="file" class="form-c" id="" placeholder="author"/>
+                                <input type="file" class="form-c" id="add_post_box_image" placeholder="image"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="control-label col-sm-2">Message</label>
                             <div class="col-sm-10">
-                                <textarea name="" id="" rows="10" class="form-control" style="resize: none;"></textarea>
+                                <textarea name="" id="add_post_box_message" rows="10" class="form-control" style="resize: none;"></textarea>
                             </div>
                         </div>
 
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'CANCEL' %}</button>
-                    <button type="button" class="btn btn-primary">{% trans 'POST' %}</button>
+                    <button type="button" class="btn btn-default"  id="cancel_post_button" data-dismiss="modal">{% trans 'CANCEL' %}</button>
+                    <button type="button" class="btn btn-primary" id="add_post_button" >{% trans 'POST' %}</button>
                 </div>
             </div>
         </div>
     </div>
 {% endblock %}
 
-{% block footer %}
-<div id="footer">
+{% block javascript %}
+    <script src="{% static 'js/bbs/index.js' %}"></script>
+{% endblock %}
 
-</div>
+{% block footer %}
 {% endblock %}
