@@ -14,6 +14,6 @@ urlpatterns = patterns('',
 if settings.DEBUG:
     # django debug toolbar
     import debug_toolbar
-    urlpatterns += patterns('', url(r'^__debug__/', include(debug_toolbar.urls)),)
+    # urlpatterns += patterns('', url(r'^__debug__/', include(debug_toolbar.urls)),)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
