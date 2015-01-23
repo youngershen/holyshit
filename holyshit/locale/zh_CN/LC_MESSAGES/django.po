@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-09 05:08+0000\n"
+"POT-Creation-Date: 2015-01-23 07:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,232 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: bbs/templates/index.html:3
-msgid "fuck"
-msgstr "水电费"
+#: bbs/forms.py:22
+msgid "title"
+msgstr "标题"
+
+#: bbs/forms.py:23
+msgid "email"
+msgstr "邮件"
+
+#: bbs/forms.py:24 templates/bbs/index.html:154
+msgid "author"
+msgstr "作者"
+
+#: bbs/forms.py:25
+msgid "message"
+msgstr "消息"
+
+#: bbs/forms.py:26
+msgid "image"
+msgstr "图片"
+
+#: bbs/forms.py:29 bbs/models.py:36
+msgid "thread title"
+msgstr "帖子标题"
+
+#: bbs/forms.py:30
+msgid "author email"
+msgstr "作者邮件"
+
+#: bbs/forms.py:31
+msgid "author name"
+msgstr "作者姓名"
+
+
+#: bbs/forms.py:33 bbs/models.py:41
+msgid "thread image"
+msgstr "帖子图片"
+
+#: bbs/forms.py:37
+msgid "title is required"
+msgstr "标题不能为空"
+
+#: bbs/forms.py:40
+msgid "email format is invalid"
+msgstr "邮箱格式错误"
+
+#: bbs/forms.py:43
+msgid "message is required"
+msgstr "消息不能为空"
+
+#: bbs/models.py:12
+msgid "board name"
+msgstr "板块名称"
+
+#: bbs/models.py:13
+msgid "board description"
+msgstr "板块描述"
+
+#: bbs/models.py:15
+msgid "board slug"
+msgstr "板块slug"
+
+#: bbs/models.py:31
+msgid "board"
+msgstr "板块"
+
+#: bbs/models.py:32
+msgid "boards"
+msgstr "板块"
+
+#: bbs/models.py:37
+msgid "thread author's email"
+msgstr "帖子作者邮箱"
+
+#: bbs/models.py:38
+msgid "thread author"
+msgstr "帖子作者"
+
+#: bbs/models.py:39
+msgid "thread author's ip address"
+msgstr "帖子作者IP地址"
+
+#: bbs/models.py:40
+msgid "thread message"
+msgstr "帖子消息"
+
+#: bbs/models.py:42
+msgid "thread slug"
+msgstr "帖子slug"
+
+#: bbs/models.py:43
+msgid "thread click times"
+msgstr "帖子点击次数"
+
+#: bbs/models.py:67
+msgid "thread"
+msgstr "帖子"
+
+#: bbs/models.py:68
+msgid "threads"
+msgstr "帖子"
+
+#: bbs/models.py:72
+msgid "comment author"
+msgstr "评论作者"
+
+#: bbs/models.py:73
+msgid "comment author ip address"
+msgstr "评论作者IP地址"
+
+#: bbs/models.py:74
+msgid "comment message"
+msgstr "评论"
+
+#: bbs/models.py:96
+msgid "comment"
+msgstr "评论"
+
+#: bbs/models.py:97
+msgid "comments"
+msgstr "评论"
+
+#: core/models.py:10
+msgid "created at"
+msgstr "创建于"
+
+#: core/models.py:11
+msgid "updated at"
+msgstr "更新于"
+
+#: core/models.py:12
+msgid "deleted at"
+msgstr "删除于"
+
+#: core/models.py:19
+msgid "site title"
+msgstr "站点名称"
+
+#: core/models.py:20
+msgid "site analytics code"
+msgstr "网站分析代码"
+
+#: core/models.py:21
+msgid "site announcement"
+msgstr "网站声明信息"
+
+#: core/models.py:22
+msgid "thread page size"
+msgstr "每页帖子数目"
+
+#: core/models.py:23
+msgid "thread paginator length"
+msgstr "帖子分页长度"
+
+#: core/models.py:33
+msgid "ad name"
+msgstr "广告名称"
+
+#: core/models.py:34
+msgid "add code"
+msgstr "广告代码"
+
+#: holyshit/settings/base.py:70
+msgid "China"
+msgstr "中国"
+
+#: templates/bbs/index.html:19
+msgid "Home"
+msgstr "主页"
+
+#: templates/bbs/index.html:20
+msgid "About"
+msgstr "关于"
+
+#: templates/bbs/index.html:25 templates/bbs/index.html.py:27
+msgid "Search"
+msgstr "搜索"
+
+#: templates/bbs/index.html:32
+msgid "New Post"
+msgstr "新帖子"
+
+#: templates/bbs/index.html:45 templates/bbs/index.html.py:47
+msgid "Hottest"
+msgstr "最热"
+
+#: templates/bbs/index.html:66
+msgid "Topic"
+msgstr "话题"
+
+#: templates/bbs/index.html:70 templates/bbs/index.html.py:76
+msgid "unknown"
+msgstr "未知"
+
+#: templates/bbs/index.html:72 templates/bbs/index.html.py:152
+msgid "Author"
+msgstr "作者"
+
+#: templates/bbs/index.html:78
+msgid "Time"
+msgstr "时间"
+
+#: templates/bbs/index.html:137
+msgid "NEW POST"
+msgstr "新帖子"
+
+#: templates/bbs/index.html:146 templates/bbs/index.html.py:148
+msgid "Title"
+msgstr "标题"
+
+#: templates/bbs/index.html:158 templates/bbs/index.html.py:160
+msgid "Email"
+msgstr "邮箱"
+
+#: templates/bbs/index.html:164 templates/bbs/index.html.py:166
+msgid "Image"
+msgstr "图片"
+
+#: templates/bbs/index.html:170
+msgid "Message"
+msgstr "消息"
+
+#: templates/bbs/index.html:179
+msgid "CANCEL"
+msgstr "取消"
+
+#: templates/bbs/index.html:180
+msgid "POST"
+msgstr "发布"
+

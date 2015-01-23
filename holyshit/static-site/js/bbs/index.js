@@ -29,3 +29,60 @@ $("#add_post_button").click(function(){
         contentType: false
     });
 });
+
+var thread_reply = function(pk, target)
+{
+  current_add_comment_thread = pk;
+}
+
+$('#add_thread_reply_button').click(function(){
+
+    var message = $('#thread_reply_textarea').val();
+
+});
+
+var thread_up = function(pk, target)
+{
+    $.ajax({
+        url:target,
+        type:'POST',
+        data:{
+            pk:pk
+        },
+        'success':function(data)
+        {
+        },
+        'error':function(data)
+        {
+
+        }
+
+    });
+}
+
+var thread_down = function(pk, target)
+{
+    $.ajax({
+        url:target,
+        type:'POST',
+        data:{
+            pk:pk
+        },
+        'success':function(data)
+        {
+        },
+        'error':function(data)
+        {
+
+        }
+
+    });
+}
+
+window.onload = function()
+{
+    $('#flow_box').masonry({
+        columnWidth: 90,
+        itemSelector: '.flow_item'
+    });
+}

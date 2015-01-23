@@ -37,7 +37,7 @@ class Thread(Entity):
     email = models.EmailField(_('thread author\'s email'), max_length=255, blank=True, null=True)
     author = models.CharField(_('thread author'), max_length=255, blank=True, null=True)
     ipaddress = models.IPAddressField(_('thread author\'s ip address'), max_length=255, null=True, blank=True)
-    message = models.TextField(_('thread content'))
+    message = models.TextField(_('thread message'))
     image = ImageField(_('thread image'), upload_to='thread/%Y/%m/%d', null=True, blank=True)
     slug = models.CharField(_('thread slug'), max_length=255, unique=True, null=True, blank=True)
     click = models.BigIntegerField(_('thread click times'), default=0)
@@ -47,6 +47,14 @@ class Thread(Entity):
 
     def add_click(self):
         setattr(self, 'click', self.click + 1)
+        self.save()
+
+    def up(self):
+        setattr(self, 'click', self.click + 1)
+        self.save()
+
+    def down(self):
+        setattr(self, 'click', self.click - 1)
         self.save()
 
     def get_absolute_url(self):

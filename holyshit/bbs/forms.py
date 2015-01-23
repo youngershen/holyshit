@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.forms import ModelForm
 from .models import Thread
+from .models import Comment
 
 
 class ThreadForm(ModelForm):
@@ -39,6 +40,27 @@ class ThreadForm(ModelForm):
             'email': {
                 'invalid': _('email format is invalid')
             },
+            'message': {
+                'required': _('message is required')
+            }
+        }
+
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['author', 'message', 'thread']
+        labels = {
+            'author': _('author'),
+            'message': _('message'),
+            'thread': _('thread')
+        }
+        help_texts = {
+            'author': _('comment author'),
+            'message': _('comment message'),
+            'thread': _('comment thread')
+        }
+        error_messages={
             'message': {
                 'required': _('message is required')
             }

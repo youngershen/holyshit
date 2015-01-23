@@ -21,6 +21,7 @@ class SiteSettings(Entity):
     Announcement = models.TextField(_('site announcement'), blank=True, null=True)
     page_size = models.IntegerField(_('thread page size'), default=20)
     page_length = models.IntegerField(_('thread paginator length'), default=5)
+    pagination_style = models.CharField(_('pagination stype'), max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.site_title

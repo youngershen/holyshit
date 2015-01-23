@@ -4,11 +4,12 @@
 # AUTHOR       : younger shen
 
 from django.http import Http404, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.views.decorators.http import require_POST
 from django.views.decorators.http import require_GET
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 from .models import Board
 from .models import Thread
 from .forms import ThreadForm
@@ -21,21 +22,7 @@ sitesettings = SiteSettings.objects.order_by('-created_at')[0]
 
 @require_GET
 def bbs_index_view(request):
-    boards = Board.objects.order_by('-created_at')
-    if boards.count() > 0:
-        threads = boards[0].threads.order_by('-created_at')
-    else:
-        threads = []
-
-    sitesttings = SiteSettings.objects.order_by('created_at')
-
-    if sitesttings.count() > 0:
-        sitesetting = sitesttings[0]
-    else:
-        sitesetting = dict(site_title=settings.SITE_TITLE)
-
-    return render(request, 'bbs/index.html', dict(boards=boards, threads=threads, sitesetting=sitesetting))
-
+    return redirect(reverse('bbs:board_hottest_view'))
 
 @require_GET
 def board_index_view(request, slug):
@@ -52,7 +39,7 @@ def board_index_view(request, slug):
 
         ipaddress = request.META.get('REMOTE_ADDR', '127.0.0.1')
         base_url = reverse('bbs:bbs_board_index_view', args=(slug, ))
-        ret = dict(form=form, boards=boards, board_name=board_name, threads=page_info['objects'], base_url=base_url, ipaddress=ipaddress, board=board)
+        ret = dict(form=form, boards=boards, board_name=board_name, threads=page_info['objects'], base_url=base_url, ipaddress=ipaddress, board=board, pagination_style=sitesettings.pagination_style)
         ret.update(page_info)
         return render(request, 'bbs/index.html', ret)
 
@@ -89,6 +76,30 @@ def board_hottest_view(request):
     page_info = bootstrap_pager(request, threads)
     form = ThreadForm()
     base_url = reverse('bbs:board_hottest_view')
-    ret = dict(boards=boards, threads=page_info['objects'], board_name=board_name, base_url=base_url, form=form)
+    ret = dict(boards=boards, threads=page_info['objects'], board_name=board_name, base_url=base_url, form=form, pagination_style=sitesettings.pagination_style)
     ret.update(page_info)
     return render(request, 'bbs/index.html', ret)
+
+
+@require_POST
+def thread_up_action(request):
+    pk = request.POST.get('pk')
+    try:
+        thread = Thread.objects.get(pk=pk)
+    except Thread.DoesNotExist:
+        return JsonResponse(dict(state=False))
+    else:
+        thread.up()
+        return JsonResponse(dict(state=True))
+
+
+@require_POST
+def thread_down_action(request):
+    pk = request.POST.get('pk')
+    try:
+        thread = Thread.objects.get(pk=pk)
+    except Thread.DoesNotExist:
+        return JsonResponse(dict(state=False))
+    else:
+        thread.down()
+        return JsonResponse(dict(state=True))

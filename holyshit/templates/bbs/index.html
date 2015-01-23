@@ -16,21 +16,20 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li class="active"><a href="{% url 'bbs:bbs_index_view' %}">{% trans 'Home' %}</a></li>
+                    <li><a href="{% url 'core_about_view' %}">{% trans 'About' %}</a></li>
                 </ul>
                 <ul>
                     <form class="navbar-form navbar-left" role="search">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Search">
+                            <input type="text" class="form-control" placeholder="{% trans 'Search' %}">
                         </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
+                        <button type="submit" class="btn btn-default">{% trans 'Search' %}</button>
                     </form>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {% if board_name != 'hottest' %}
-                        <button type="button" class="btn btn-default active navbar-right navbar-nav" data-toggle="modal" data-target="#post_box">发帖</button>
+                        <button type="button" class="btn btn-default active navbar-right navbar-nav" data-toggle="modal" data-target="#post_box">{% trans 'New Post' %}</button>
                     {% endif %}
                 </ul>
 
@@ -41,11 +40,10 @@
         <div class="row">
             <div class=" col-sm-3 col-md-2 col-lg-2 sidebar">
                 <ul class="nav nav-sidebar">
-
                     {% if board_name == 'hottest' %}
-                        <li class="active"><a href="{% url 'bbs:board_hottest_view' %}">最热</a></li>
+                        <li class="active"><a href="{% url 'bbs:board_hottest_view' %}">{% trans 'Hottest' %}</a></li>
                     {% else %}
-                        <li><a href="{% url 'bbs:board_hottest_view' %}">最热</a></li>
+                        <li><a href="{% url 'bbs:board_hottest_view' %}">{% trans 'Hottest' %}</a></li>
                     {% endif %}
 
                     {% for board in boards %}
@@ -57,52 +55,65 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2  col-lg-10  main well">
-                {% for thread in threads %}
-                    <a name="thread_{{ thread.pk }}"></a>
-                    <div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <span>
-                                    主题:
-                                    {% if thread.title %}
-                                        {{ thread.title }}
-                                    {% else %}
-                                        unknow
-                                    {% endif %}
-                                    作者:
-                                    {% if thread.author %}
-                                    {{ thread.author }}
-                                    {% else %}
-                                        {% trans 'unknown' %}
-                                    {% endif %}
-                                    时间:
-                                    {{ thread.created_at }}
-                                </span>
-                                <button type="button" class="btn-mini active navbar-right navbar-nav">回复</button>
-
-                            </div>
-                            <div class="panel-body container-fluid">
-                                <div class="row">
-                                    {% if thread.image %}
-                                        <div class="col-md-3 col-sm-3">
-                                            <a href="/media/{{ thread.image }}" class="thumbnails" target="_blank">
-                                                {% thumbnail thread.image "300x200" crop="center" as im %}
-                                                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-                                                {% endthumbnail %}
-                                            </a>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2  col-lg-10  main" >
+                <div class="js-masonry" id="flow_box">
+                    {% for thread in threads %}
+                        <a name="thread_{{ thread.pk }}"></a>
+                        <div class="flow_item">
+                            <div class="panel panel-default" style="width:230px;">
+                                <div class="panel-heading">
+                                    <div>
+                                        <button id='thread_reply_btn'  onclick="thread_reply({{ thread.pk }}, '')" class="btn-small btn-info pull-right" data-toggle="modal" data-target="#thread_reply_box">{% trans 'Reply' %}</button>
+                                        <button id='thread_down_btn' onclick="thread_down({{ thread.pk }}, '{% url 'bbs:bbs_thread_down_action' %}')" class="btn-small btn-warning pull-right">{% trans 'Down' %}</button>
+                                        <button id='thread_up_btn' onclick="thread_up({{thread.pk}}, '{% url 'bbs:bbs_thread_up_action' %}')" class="btn-small btn-danger pull-right">{% trans 'Up' %}</button>
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                    <span>
+                                        {% trans 'Topic' %}:
+                                        {% if thread.title %}
+                                            {{ thread.title }}
+                                        {% else %}
+                                            {% trans 'unknown' %}
+                                        {% endif %}
+                                        <br/>
+                                        {% trans 'Author' %}:
+                                        {% if thread.author %}
+                                        {{ thread.author }}
+                                        {% else %}
+                                            {% trans 'unknown' %}
+                                        {% endif %}
+                                        <br/>
+                                        {% trans 'Time' %}:
+                                        {{ thread.created_at }}
+                                    </span>
+                                </div>
+                                {% if thread.image %}
+                                    <div class="panel-body">
+                                        <div class="">
+                                            {% if thread.image %}
+                                                <div class="">
+                                                    <a href="/media/{{ thread.image }}" class="thumbnails" target="_blank">
+                                                        {% thumbnail thread.image "200x300" crop="center" as im %}
+                                                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                                        {% endthumbnail %}
+                                                    </a>
+                                                </div>
+                                            {% endif %}
                                         </div>
-                                    {% endif %}
-                                    <div class="col-md-5 col-sm-5 ">
-                                        <p>
-                                            {{ thread.message }}
-                                        </p>
+                                    </div>
+                                {% endif %}
+                                <div class="panel-footer">
+                                    <div>
+                                        <div class="alert alert-success" role="alert"> <p>{{ thread.message }}</p></div>
+                                    </div>
+                                    <div id="reply_box_{{ thread.pk }}">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
                 <div> <!-- pagination -->
                     <nav>
                         <ul class="pagination">
@@ -137,7 +148,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">{% trans 'NEW POST' %}</h4>
+                    <h4 class="modal-title" id="new_post_modal">{% trans 'NEW POST' %}</h4>
                 </div>
                 <div class="modal-body">
                     <form action="{% url 'bbs:bbs_thread_add_action' %}" class="form-horizontal" onsubmit="return false;" id="add_post_box_form" enctype="multipart/form-data">
@@ -146,31 +157,31 @@
                             <input type="hidden" value="{{ board.pk }}" id="{{ form.board.auto_id }}" name="{{ form.board.name }}"/>
                         {% endif %}
                         <div class="form-group">
-                            <label for="{{ form.title.auto_id }}" class="control-label col-sm-2">Title</label>
+                            <label for="{{ form.title.auto_id }}" class="control-label col-sm-2">{% trans 'Title' %}</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="{{ form.title.auto_id }}" name="{{ form.title.name }}" placeholder="title" />
+                                <input type="text" class="form-control" id="{{ form.title.auto_id }}" name="{{ form.title.name }}" placeholder="{% trans 'Title' %}" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="{{ form.author.auto_id }}" class="control-label col-sm-2">Author</label>
+                            <label for="{{ form.author.auto_id }}" class="control-label col-sm-2">{% trans 'Author' %}</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="{{ form.author.auto_id }}"  name="{{ form.author.name }}" placeholder="author"/>
+                                <input type="text" class="form-control" id="{{ form.author.auto_id }}"  name="{{ form.author.name }}" placeholder="{% trans 'author' %}"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="{{ form.email.auto_id }}" class="control-label col-sm-2">Email</label>
+                            <label for="{{ form.email.auto_id }}" class="control-label col-sm-2">{% trans 'Email' %}</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="{{ form.email.auto_id }}"  name="{{ form.email.name }}" placeholder="email"/>
+                                <input type="text" class="form-control" id="{{ form.email.auto_id }}"  name="{{ form.email.name }}" placeholder="{% trans 'Email' %}"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="{{ form.image.auto_id }}" class="control-label col-sm-2">Image</label>
+                            <label for="{{ form.image.auto_id }}" class="control-label col-sm-2">{% trans 'Image' %}</label>
                             <div class="col-sm-10">
-                                <input type="file"  id="{{ form.image.auto_id }}" name="{{ form.image.name }}" placeholder="image"/>
+                                <input type="file"  id="{{ form.image.auto_id }}" name="{{ form.image.name }}" placeholder="{% trans 'Image' %}"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="" class="control-label col-sm-2">Message</label>
+                            <label for="" class="control-label col-sm-2">{% trans 'Message' %}</label>
                             <div class="col-sm-10">
                                 <textarea name="{{ form.message.name }}" id="{{ form.message.auto_id }}" rows="10" class="form-control" style="resize: none;"></textarea>
                             </div>
@@ -182,12 +193,31 @@
                     <button type="button" class="btn btn-default"  id="cancel_post_button" data-dismiss="modal">{% trans 'CANCEL' %}</button>
                     <button type="button" class="btn btn-primary" id="add_post_button"  >{% trans 'POST' %}</button>
                 </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="thread_reply_box" tabindex="-1" role="dialog" aria-labelledby="myModalLabe" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <textarea name='' id='thread_reply_textarea' cols='30' rows='2' class='form-control' style='resize:none;'  action="{% url '' %}"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"  id="cancel_thread_reply_button" data-dismiss="modal">{% trans 'CANCEL' %}</button>
+                    <button type="button" class="btn btn-primary" id="add_thread_reply_button"  >{% trans 'POST' %}</button>
+                </div>
             </div>
         </div>
     </div>
 {% endblock %}
 
+{% block css %}
+    <link rel="stylesheet" href=" {%  static 'css/bbs/bbs.css' %}"/>
+{% endblock %}
+
 {% block javascript %}
+    <script src="{% static 'libs/jquery/masonry.pkgd.min.js' %}"></script>
     <script src="{% static 'js/bbs/index.js' %}"></script>
 {% endblock %}
 
