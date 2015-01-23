@@ -59,6 +59,7 @@
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2  col-lg-10  main well">
                 {% for thread in threads %}
+                    <a name="thread_{{ thread.pk }}"></a>
                     <div>
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -78,6 +79,8 @@
                                     时间:
                                     {{ thread.created_at }}
                                 </span>
+                                <button type="button" class="btn-mini active navbar-right navbar-nav">回复</button>
+
                             </div>
                             <div class="panel-body container-fluid">
                                 <div class="row">
@@ -103,7 +106,7 @@
                 <div> <!-- pagination -->
                     <nav>
                         <ul class="pagination">
-                            {% if page_list %}
+                            {% if object_count > 0 %}
                             <li  {% if not prev_page %} class="disabled" {% endif %}>
                                 <a href="{% if not prev_page %}javascript:void(0);{% else %} {{ base_url }}?page={{ prev_page }}{% endif %}" aria-label="Previous">
                                     <span aria-hidden="true">&laquo;</span>

@@ -13,10 +13,17 @@ $("#add_post_button").click(function(){
         data:form,
         'success':function(data){
 
-            console.log(data);
+            if(data.state)
+            {
+                window.location.reload(true);
+
+            }else{
+
+            }
         },
         'error':function(data){
 
+            alert('服务器出错，请重新提交');
         },
         processData: false,
         contentType: false

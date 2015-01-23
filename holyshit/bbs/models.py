@@ -18,7 +18,7 @@ class Board(Entity):
         return reverse('bbs:bbs_board_index_view', args=(self.slug,))
 
     def save(self, *args, **kwargs):
-        self.slug = '-'.join(unicode(unidecode(self.name)).split(' ')).lower() + str(int(time.time()))
+        self.slug = '-'.join(unicode(unidecode(self.name)).split(' ')).lower()
         super(Board, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -46,7 +46,6 @@ class Thread(Entity):
     parent = models.ForeignKey('self', related_name='children', null=True, blank=True, on_delete=models.SET_NULL)
 
     def add_click(self):
-        # self.click = self.click + 1
         setattr(self, 'click', self.click + 1)
         self.save()
 
@@ -67,3 +66,33 @@ class Thread(Entity):
     class Meta:
         verbose_name = _('thread')
         verbose_name_plural = _('threads')
+
+
+class Comment(Entity):
+    author = models.CharField(_('comment author'), max_length=255, null=True, blank=True)
+    ipaddress = models.IPAddressField(_('comment author ip address'), max_length=255, null=True, blank=True)
+    message = models.TextField(_('comment message'))
+
+    thread = models.ForeignKey('Thread', related_name='comments', on_delete=models.CASCADE, blank=True, null=True)
+    quote = models.OneToOneField('self', related_name='quotes', blank=True, null=True, on_delete=models.SET_NULL)
+
+    def get_full_comment(self):
+        ret_list = []
+        this = self
+        while True:
+            if this.quote:
+                ret_list.append(this.quote)
+                this = this.quote
+            else:
+                return ret_list
+
+    def __str__(self):
+        return self.message
+
+    def __unicode__(self):
+        return self.__str__()
+
+    class Meta:
+        verbose_name = _('comment')
+        verbose_name_plural = _('comments')
+

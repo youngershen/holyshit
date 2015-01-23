@@ -47,4 +47,4 @@ def bootstrap_pager(request, queryset):
         for i in range(page_number - left_page, page_number + right_page + 1):
             page_list.append(i)
 
-        return dict(page_list=page_list, objects=objects, count=count, prev_page=prev_page, next_page=next_page, page_number=page_number)
+        return dict(page_list=page_list, objects=objects, count=count, prev_page=prev_page, next_page=next_page, page_number=page_number, object_count=len(objects))

@@ -48,9 +48,13 @@ def board_index_view(request, slug):
         threads = board.threads.order_by('-created_at')
         board_name = board.name
         form = ThreadForm()
+        page_info = bootstrap_pager(request, threads)
+
         ipaddress = request.META.get('REMOTE_ADDR', '127.0.0.1')
         base_url = reverse('bbs:bbs_board_index_view', args=(slug, ))
-        return render(request, 'bbs/index.html', dict(form=form, boards=boards, board_name=board_name, threads=threads, base_url=base_url, ipaddress=ipaddress, board=board))
+        ret = dict(form=form, boards=boards, board_name=board_name, threads=page_info['objects'], base_url=base_url, ipaddress=ipaddress, board=board)
+        ret.update(page_info)
+        return render(request, 'bbs/index.html', ret)
 
 
 @require_GET
@@ -84,8 +88,7 @@ def board_hottest_view(request):
     board_name = 'hottest'
     page_info = bootstrap_pager(request, threads)
     form = ThreadForm()
-    ret = dict(boards=boards, threads=page_info['objects'], board_name=board_name)
     base_url = reverse('bbs:board_hottest_view')
+    ret = dict(boards=boards, threads=page_info['objects'], board_name=board_name, base_url=base_url, form=form)
     ret.update(page_info)
-    ret.update(dict(base_url=base_url, form=form))
     return render(request, 'bbs/index.html', ret)
