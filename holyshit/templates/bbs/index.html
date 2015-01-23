@@ -29,7 +29,9 @@
                     </form>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <button type="button" class="btn btn-default active navbar-right navbar-nav" data-toggle="modal" data-target="#post_box">发帖</button>
+                    {% if board_name != 'hottest' %}
+                        <button type="button" class="btn btn-default active navbar-right navbar-nav" data-toggle="modal" data-target="#post_box">发帖</button>
+                    {% endif %}
                 </ul>
 
             </div><!-- /.nav-collapse -->
@@ -56,7 +58,7 @@
                 </ul>
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2  col-lg-10  main well">
-                {% for thread in objects %}
+                {% for thread in threads %}
                     <div>
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -90,7 +92,7 @@
                                     {% endif %}
                                     <div class="col-md-5 col-sm-5 ">
                                         <p>
-                                            {{ thread.content }}
+                                            {{ thread.message }}
                                         </p>
                                     </div>
                                 </div>
@@ -101,6 +103,7 @@
                 <div> <!-- pagination -->
                     <nav>
                         <ul class="pagination">
+                            {% if page_list %}
                             <li  {% if not prev_page %} class="disabled" {% endif %}>
                                 <a href="{% if not prev_page %}javascript:void(0);{% else %} {{ base_url }}?page={{ prev_page }}{% endif %}" aria-label="Previous">
                                     <span aria-hidden="true">&laquo;</span>
@@ -118,6 +121,7 @@
                                     <span aria-hidden="true">»</span>
                                 </a>
                             </li>
+                            {% endif %}
                         </ul>
                     </nav>
                 </div> <!-- pagination end-->
@@ -133,35 +137,39 @@
                     <h4 class="modal-title" id="myModalLabel">{% trans 'NEW POST' %}</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="{% url 'bbs:bbs_thread_add_action' %}" class="form-horizontal" onsubmit="return false;" id="add_post_box_form">
+                    <form action="{% url 'bbs:bbs_thread_add_action' %}" class="form-horizontal" onsubmit="return false;" id="add_post_box_form" enctype="multipart/form-data">
+                        <input type="hidden" value="{{ ipaddress }}" id="{{ form.ipaddress.auto_id }}" name="{{ form.ipaddress.name }}"/>
+                        {% if board %}
+                            <input type="hidden" value="{{ board.pk }}" id="{{ form.board.auto_id }}" name="{{ form.board.name }}"/>
+                        {% endif %}
                         <div class="form-group">
-                            <label for="" class="control-label col-sm-2">Title</label>
+                            <label for="{{ form.title.auto_id }}" class="control-label col-sm-2">Title</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="add_post_box_title" placeholder="title"/>
+                                <input type="text" class="form-control" id="{{ form.title.auto_id }}" name="{{ form.title.name }}" placeholder="title" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="" class="control-label col-sm-2">Author</label>
+                            <label for="{{ form.author.auto_id }}" class="control-label col-sm-2">Author</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="add_post_box_author" placeholder="author"/>
+                                <input type="text" class="form-control" id="{{ form.author.auto_id }}"  name="{{ form.author.name }}" placeholder="author"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="" class="control-label col-sm-2">Email</label>
+                            <label for="{{ form.email.auto_id }}" class="control-label col-sm-2">Email</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="add_post_box_email" placeholder="email"/>
+                                <input type="text" class="form-control" id="{{ form.email.auto_id }}"  name="{{ form.email.name }}" placeholder="email"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="" class="control-label col-sm-2">Image</label>
+                            <label for="{{ form.image.auto_id }}" class="control-label col-sm-2">Image</label>
                             <div class="col-sm-10">
-                                <input type="file" class="form-c" id="add_post_box_image" placeholder="image"/>
+                                <input type="file"  id="{{ form.image.auto_id }}" name="{{ form.image.name }}" placeholder="image"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="control-label col-sm-2">Message</label>
                             <div class="col-sm-10">
-                                <textarea name="" id="add_post_box_message" rows="10" class="form-control" style="resize: none;"></textarea>
+                                <textarea name="{{ form.message.name }}" id="{{ form.message.auto_id }}" rows="10" class="form-control" style="resize: none;"></textarea>
                             </div>
                         </div>
 
@@ -169,7 +177,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"  id="cancel_post_button" data-dismiss="modal">{% trans 'CANCEL' %}</button>
-                    <button type="button" class="btn btn-primary" id="add_post_button" >{% trans 'POST' %}</button>
+                    <button type="button" class="btn btn-primary" id="add_post_button"  >{% trans 'POST' %}</button>
                 </div>
             </div>
         </div>
@@ -181,4 +189,5 @@
 {% endblock %}
 
 {% block footer %}
+
 {% endblock %}

@@ -5,21 +5,20 @@
 $("#add_post_button").click(function(){
 
     var target = $('#add_post_box_form').attr('action');
-    var title = $('#add_post_box_title').val()
-    var author = $('#add_post_box_author').val()
-    var email = $('#add_post_box_email').val()
+    var form = new FormData(document.getElementById('add_post_box_form'));
     $.ajax({
         type  :'POST',
         'url' : target,
-        'data':{
-
-        },
+        contentType: "application/x-www-form-urlencoded",
+        data:form,
         'success':function(data){
 
+            console.log(data);
         },
         'error':function(data){
 
-        }
-
+        },
+        processData: false,
+        contentType: false
     });
 });

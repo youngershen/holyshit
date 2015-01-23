@@ -47,8 +47,10 @@ def board_index_view(request, slug):
         boards = Board.objects.order_by('-created_at')
         threads = board.threads.order_by('-created_at')
         board_name = board.name
+        form = ThreadForm()
+        ipaddress = request.META.get('REMOTE_ADDR', '127.0.0.1')
         base_url = reverse('bbs:bbs_board_index_view', args=(slug, ))
-        return render(request, 'bbs/index.html', dict(boards=boards, board_name=board_name, threads=threads, base_url=base_url))
+        return render(request, 'bbs/index.html', dict(form=form, boards=boards, board_name=board_name, threads=threads, base_url=base_url, ipaddress=ipaddress, board=board))
 
 
 @require_GET
@@ -66,7 +68,8 @@ def thread_index_view(request, slug):
 
 @require_POST
 def thread_add_action(request):
-    form = ThreadForm(request.POST)
+    form = ThreadForm(request.POST, request.FILES)
+    print request.FILES
     if form.is_valid():
         form.save()
         return JsonResponse(dict(state=True))
@@ -75,19 +78,14 @@ def thread_add_action(request):
 
 
 @require_GET
-def thread_add_view(request):
-    form = ThreadForm()
-    return render(request, 'bbs/thread_add_view.html', dict(form=form))
-
-
-@require_GET
 def board_hottest_view(request):
     threads = Thread.objects.order_by('-click')
     boards = Board.objects.order_by('-created_at')
     board_name = 'hottest'
     page_info = bootstrap_pager(request, threads)
+    form = ThreadForm()
     ret = dict(boards=boards, threads=page_info['objects'], board_name=board_name)
     base_url = reverse('bbs:board_hottest_view')
     ret.update(page_info)
-    ret.update(dict(base_url=base_url))
+    ret.update(dict(base_url=base_url, form=form))
     return render(request, 'bbs/index.html', ret)

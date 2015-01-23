@@ -11,29 +11,35 @@ from .models import Thread
 class ThreadForm(ModelForm):
 
     def clean(self):
-        print self.fields
-        raise ValidationError(_('test validator'), code='test')
+        # print self.fields
+        # raise ValidationError(_('test validator'), code='test')
+        pass
 
     class Meta:
         model = Thread
-        fields = ['title', 'email', 'author', 'content', 'image']
+        fields = ['title', 'email', 'author', 'message', 'image', 'ipaddress', 'board']
         labels = {
             'title': _('title'),
             'email': _('email'),
             'author': _('author'),
-            'content': _('content'),
+            'message': _('message'),
             'image': _('image')
         }
         help_texts = {
             'title': _('thread title'),
             'email': _('author email'),
             'author': _('author name'),
-            'content': _('thread content'),
+            'message': _('thread message'),
             'image': _('thread image')
         }
         error_messages = {
             'title': {
                 'required': _('title is required'),
-                'test': _('title validator test')
+            },
+            'email': {
+                'invalid': _('email format is invalid')
+            },
+            'message': {
+                'required': _('message is required')
             }
         }
