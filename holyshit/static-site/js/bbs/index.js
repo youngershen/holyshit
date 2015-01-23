@@ -38,7 +38,22 @@ var thread_reply = function(pk, target)
 $('#add_thread_reply_button').click(function(){
 
     var message = $('#thread_reply_textarea').val();
+    var target = $('#thread_reply_textarea').attr('action');
 
+    $.ajax({
+        url:target,
+        type:'POST',
+        data:{
+            message:message,
+            thread:current_add_comment_thread
+        },
+        'success':function(data){
+
+        },
+        'error':function(data){
+
+        }
+    });
 });
 
 var thread_up = function(pk, target)

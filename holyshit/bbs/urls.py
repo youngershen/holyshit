@@ -13,4 +13,5 @@ urlpatterns = patterns('bbs.views',
                        url(r'thread/(?P<slug>[-a-zA-Z0-9]+)/$', 'thread_index_view', name='bbs_thread_index_view'),
                        url(r'board/hottest/$', 'board_hottest_view', name='board_hottest_view'),
                        url(r'board/(?P<slug>[-a-zA-Z0-9]+)/$', 'board_index_view', name='bbs_board_index_view'),
+                       url(r'comment/add/action/$', 'comment_add_action', name='bbs_comment_add_action')
                        )

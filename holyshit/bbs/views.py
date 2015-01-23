@@ -12,7 +12,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from .models import Board
 from .models import Thread
-from .forms import ThreadForm
+from .forms import ThreadForm, CommentForm
 from core.models import SiteSettings
 from core.utils import bootstrap_pager
 
@@ -103,3 +103,13 @@ def thread_down_action(request):
     else:
         thread.down()
         return JsonResponse(dict(state=True))
+
+
+@require_POST
+def comment_add_action(request):
+    form = CommentForm(request.POST)
+    if form.is_valid():
+        form.save()
+        return JsonResponse(dict(state=True))
+    else:
+        return JsonResponse(dict(state=False, messages=form.errors.as_json()))

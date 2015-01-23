@@ -201,7 +201,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
-                    <textarea name='' id='thread_reply_textarea' cols='30' rows='2' class='form-control' style='resize:none;'  action="{% url '' %}"></textarea>
+                    <textarea name='' id='thread_reply_textarea' cols='30' rows='2' class='form-control' style='resize:none;'  action="{% url 'bbs:bbs_comment_add_action' %}"></textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"  id="cancel_thread_reply_button" data-dismiss="modal">{% trans 'CANCEL' %}</button>
