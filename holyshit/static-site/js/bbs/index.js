@@ -18,7 +18,24 @@ $("#add_post_button").click(function(){
                 window.location.reload(true);
 
             }else{
+                $('#email_errors').html('');
+                $('#message_errors').html('');
+                if(data.errors)
+                {
+                    var errors = JSON.parse(data.errors);
+                    if(errors.email)
+                    {
+                        var html = "<div class='alert alert-warning' role='alert'>"+ errors.email[0].message +"</div>";
+                        $('#email_errors').append(html);
 
+                    }
+
+                    if(errors.message)
+                    {
+                        var html = "<div class='alert alert-warning' role='alert'>"+ errors.message[0].message +"</div>";
+                        $('#message_errors').append(html);
+                    }
+                }
             }
         },
         'error':function(data){

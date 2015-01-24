@@ -3,16 +3,13 @@
 # FILE_NAME    :
 # AUTHOR       : younger shen
 
-from django.http import Http404, JsonResponse
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
-from django.views.decorators.http import require_POST
 from django.views.decorators.http import require_GET
-from django.conf import settings
-from django.utils.translation import ugettext_lazy as _
 from .models import Board
 from .models import Thread
-from .forms import ThreadForm, CommentForm
+from .forms import ThreadForm
 from core.models import SiteSettings
 from core.utils import bootstrap_pager
 
@@ -55,8 +52,6 @@ def thread_index_view(request, slug):
         thread.add_click()
         threads = thread.children.order_by('-created_at')
         return render(request, 'bbs/thread_index_view.html', dict(thread=thread, threads=threads))
-
-
 
 
 @require_GET
