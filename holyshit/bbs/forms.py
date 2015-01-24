@@ -34,9 +34,6 @@ class ThreadForm(ModelForm):
             'image': _('thread image')
         }
         error_messages = {
-            'title': {
-                'required': _('title is required'),
-            },
             'email': {
                 'invalid': _('email format is invalid')
             },

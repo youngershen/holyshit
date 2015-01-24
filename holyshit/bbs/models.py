@@ -33,7 +33,7 @@ class Board(Entity):
 
 
 class Thread(Entity):
-    title = models.CharField(_('thread title'), max_length=255, db_index=True)
+    title = models.CharField(_('thread title'), max_length=255, db_index=True, null=True, blank=True)
     email = models.EmailField(_('thread author\'s email'), max_length=255, blank=True, null=True)
     author = models.CharField(_('thread author'), max_length=255, blank=True, null=True)
     ipaddress = models.IPAddressField(_('thread author\'s ip address'), max_length=255, null=True, blank=True)

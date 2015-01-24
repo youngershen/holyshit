@@ -57,15 +57,6 @@ def thread_index_view(request, slug):
         return render(request, 'bbs/thread_index_view.html', dict(thread=thread, threads=threads))
 
 
-@require_POST
-def thread_add_action(request):
-    form = ThreadForm(request.POST, request.FILES)
-    print request.FILES
-    if form.is_valid():
-        form.save()
-        return JsonResponse(dict(state=True))
-    else:
-        return JsonResponse(dict(state=False, errors=form.errors.as_json()))
 
 
 @require_GET
@@ -81,35 +72,3 @@ def board_hottest_view(request):
     return render(request, 'bbs/index.html', ret)
 
 
-@require_POST
-def thread_up_action(request):
-    pk = request.POST.get('pk')
-    try:
-        thread = Thread.objects.get(pk=pk)
-    except Thread.DoesNotExist:
-        return JsonResponse(dict(state=False))
-    else:
-        thread.up()
-        return JsonResponse(dict(state=True))
-
-
-@require_POST
-def thread_down_action(request):
-    pk = request.POST.get('pk')
-    try:
-        thread = Thread.objects.get(pk=pk)
-    except Thread.DoesNotExist:
-        return JsonResponse(dict(state=False))
-    else:
-        thread.down()
-        return JsonResponse(dict(state=True))
-
-
-@require_POST
-def comment_add_action(request):
-    form = CommentForm(request.POST)
-    if form.is_valid():
-        form.save()
-        return JsonResponse(dict(state=True))
-    else:
-        return JsonResponse(dict(state=False, messages=form.errors.as_json()))
