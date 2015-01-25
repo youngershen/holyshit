@@ -18,20 +18,22 @@ class ThreadForm(ModelForm):
 
     class Meta:
         model = Thread
-        fields = ['title', 'email', 'author', 'message', 'image', 'ipaddress', 'board']
+        fields = ['title', 'email', 'author', 'message', 'image', 'ipaddress', 'board', 'link']
         labels = {
             'title': _('title'),
             'email': _('email'),
             'author': _('author'),
             'message': _('message'),
-            'image': _('image')
+            'image': _('image'),
+            'link': _('link')
         }
         help_texts = {
             'title': _('thread title'),
             'email': _('author email'),
             'author': _('author name'),
             'message': _('thread message'),
-            'image': _('thread image')
+            'image': _('thread image'),
+            'link': _('website link')
         }
         error_messages = {
             'email': {
@@ -39,6 +41,11 @@ class ThreadForm(ModelForm):
             },
             'message': {
                 'required': _('message is required')
+            },
+            'link': {
+                'url': _(''),
+                'magnet': _(''),
+                'ed2k': _('')
             }
         }
 

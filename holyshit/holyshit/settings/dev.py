@@ -27,4 +27,3 @@ DATABASES = {
 INSTALLED_APPS += ('django_extensions',)
 THUMBNAIL_DEBUG = True
 
-

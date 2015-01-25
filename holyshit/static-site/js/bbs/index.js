@@ -65,7 +65,15 @@ $('#add_thread_reply_button').click(function(){
             thread:current_add_comment_thread
         },
         'success':function(data){
-
+            if(data.state)
+            {
+                window.location.reload(true);
+            }
+            else{
+                var errors = JSON.parse(data.messages).message;
+                var html = "<div class='alert alert-warning' role='alert'>"+ errors[0].message +"</div>";
+                $('#thread_reply_errors').html(html);
+            }
         },
         'error':function(data){
 

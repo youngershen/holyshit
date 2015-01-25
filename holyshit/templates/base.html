@@ -29,5 +29,8 @@
     <footer>
         {% block footer %}{% endblock %}
     </footer>
+    {% block ga %}
+        {{ sitesettings.analytics_code |safe }}
+    {% endblock %}
 </html>
 

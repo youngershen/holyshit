@@ -17,15 +17,17 @@
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="{% url 'bbs:bbs_index_view' %}">{% trans 'Home' %}</a></li>
-                    <li><a href="{% url 'core_about_view' %}">{% trans 'About' %}</a></li>
+                    <li><a target="_blank" href="{% url 'core_about_view' %}">{% trans 'About' %}</a></li>
                 </ul>
                 <ul>
+                    <!--
                     <form class="navbar-form navbar-left" role="search">
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="{% trans 'Search' %}">
                         </div>
                         <button type="submit" class="btn btn-default">{% trans 'Search' %}</button>
                     </form>
+                    -->
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {% if board_name != 'hottest' %}
@@ -63,11 +65,11 @@
                             <div class="panel panel-default" style="width:230px;">
                                 <div class="panel-heading">
                                     <div>
+                                        <span class="label label-primary">No.{{ thread.pk }}</span>
                                         <button id='thread_reply_btn'  onclick="thread_reply({{ thread.pk }}, '')" class="btn-small btn-info pull-right" data-toggle="modal" data-target="#thread_reply_box">{% trans 'Reply' %}</button>
                                         <button id='thread_down_btn' onclick="thread_down({{ thread.pk }}, '{% url 'bbs:bbs_thread_down_action' %}')" class="btn-small btn-warning pull-right">{% trans 'Down' %}</button>
                                         <button id='thread_up_btn' onclick="thread_up({{thread.pk}}, '{% url 'bbs:bbs_thread_up_action' %}')" class="btn-small btn-danger pull-right">{% trans 'Up' %}</button>
                                     </div>
-                                    <br/>
                                     <br/>
                                     <span>
                                         {% trans 'Topic' %}:
@@ -105,7 +107,14 @@
                                 {% endif %}
                                 <div class="panel-footer">
                                     <div>
-                                        <div class="alert alert-success" role="alert"> <p>{{ thread.message }}</p></div>
+                                        <div class="alert alert-danger" role="alert"> <p>{{ thread.message }}</p></div>
+                                        {% for comment in thread.ordered_comments %}
+                                            <div class="alert alert-{{ comment.get_random_template_style }}" role="alert">
+                                                <p>{{ comment }}</p>
+                                                <br/>
+                                                <span>{{ comment.created_at }}</span>
+                                            </div>
+                                        {% endfor %}
                                     </div>
                                     <div id="reply_box_{{ thread.pk }}">
                                     </div>
@@ -176,6 +185,16 @@
                                 <input type="text" class="form-control" id="{{ form.email.auto_id }}"  name="{{ form.email.name }}" placeholder="{% trans 'Email' %}"/>
                             </div>
                         </div>
+                        <!--
+                        <div class="form-group">
+                            <label for="{{ form.link.auto_id }}" class="control-label col-sm-2">{% trans 'Link' %}</label>
+                            <div class="col-sm-10">
+                                <div id="link_errors">
+                                </div>
+                                <input type="text" class="form-control" id="{{ form.link.auto_id }}"  name="{{ form.link.name }}" placeholder="{% trans 'Link' %}"/>
+                            </div>
+                        </div>
+                        -->
                         <div class="form-group">
                             <label for="{{ form.image.auto_id }}" class="control-label col-sm-2">{% trans 'Image' %}</label>
                             <div class="col-sm-10">
@@ -185,9 +204,7 @@
                         <div class="form-group">
                             <label for="" class="control-label col-sm-2">{% trans 'Message' %}</label>
                             <div class="col-sm-10">
-                                <div id="message_errors">
-
-                                </div>
+                                <div id="message_errors"></div>
                                 <textarea name="{{ form.message.name }}" id="{{ form.message.auto_id }}" rows="10" class="form-control" style="resize: none;"></textarea>
                             </div>
                         </div>
@@ -206,6 +223,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
+                    <div id="thread_reply_errors"></div>
                     <textarea name='' id='thread_reply_textarea' cols='30' rows='2' class='form-control' style='resize:none;'  action="{% url 'bbs:bbs_comment_add_action' %}"></textarea>
                 </div>
                 <div class="modal-footer">

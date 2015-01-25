@@ -5,12 +5,16 @@ from django.conf.urls.static import static
 import bbs.urls
 
 urlpatterns = patterns('',
-                       url(r'^$', 'core.views.index', name='core_index_view'),
-                       url(r'^about/$', 'core.views.about', name='core_about_view'),
+                       url(r'^$', 'core.views.index_view', name='core_index_view'),
+                       url(r'^about/$', 'core.views.about_view', name='core_about_view'),
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'bbs/', include(bbs.urls, namespace='bbs', app_name='bbs')),
                        )
 
+handler404 = 'core.views.errors_handler_view'
+handler403 = 'core.views.errors_handler_view'
+handler400 = 'core.views.errors_handler_view'
+handler500 = 'core.views.errors_handler_view'
 
 if settings.DEBUG:
     # django debug toolbar

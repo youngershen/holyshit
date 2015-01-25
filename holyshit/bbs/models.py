@@ -1,3 +1,4 @@
+import random
 import time
 from django.db import models
 from django.core.urlresolvers import reverse
@@ -41,9 +42,20 @@ class Thread(Entity):
     image = ImageField(_('thread image'), upload_to='thread/%Y/%m/%d', null=True, blank=True)
     slug = models.CharField(_('thread slug'), max_length=255, unique=True, null=True, blank=True)
     click = models.BigIntegerField(_('thread click times'), default=0)
-
+    link = models.CharField(_('website link'), max_length=255, null=True, blank=True)
     board = models.ForeignKey('Board', related_name='threads', on_delete=models.CASCADE, blank=True, null=True)
     parent = models.ForeignKey('self', related_name='children', null=True, blank=True, on_delete=models.SET_NULL)
+
+    @staticmethod
+    def lattest_thread():
+        return Thread.objects.order_by('-created_at')[:20]
+
+    @staticmethod
+    def hottest_thread():
+        return Thread.objects.order_by('-click')[:20]
+
+    def ordered_comments(self):
+        return self.comments.order_by('-created_at')
 
     def add_click(self):
         setattr(self, 'click', self.click + 1)
@@ -93,6 +105,10 @@ class Comment(Entity):
                 this = this.quote
             else:
                 return ret_list
+
+    @staticmethod
+    def get_random_template_style():
+        return random.choice(['warning', 'info', 'success'])
 
     def __str__(self):
         return self.message

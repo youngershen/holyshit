@@ -30,7 +30,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['holyshit.io']
+ALLOWED_HOSTS = ['shit.io', '127.0.0.1']
 
 
 # Application definition
