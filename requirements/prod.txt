@@ -24,3 +24,6 @@ django-compressor==1.4
 
 #thumb pic
 sorl-thumbnail==12.2
+
+#requests
+requests==2.5.1

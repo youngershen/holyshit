@@ -2,7 +2,6 @@
 # PROJECT_NAME : holyshit
 # FILE_NAME    : 
 # AUTHOR       : younger shen
-from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.forms import ModelForm
 from .models import Thread

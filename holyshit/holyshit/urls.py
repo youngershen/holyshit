@@ -3,12 +3,19 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 import bbs.urls
-
+import chan.urls
+import songtaste.urls
+import reddit.urls
+import account.urls
 urlpatterns = patterns('',
                        url(r'^$', 'core.views.index_view', name='core_index_view'),
                        url(r'^about/$', 'core.views.about_view', name='core_about_view'),
                        url(r'^admin/', include(admin.site.urls)),
-                       url(r'bbs/', include(bbs.urls, namespace='bbs', app_name='bbs')),
+                       url(r'^bbs/', include(bbs.urls, namespace='bbs', app_name='bbs')),
+                       url(r'^reddit/', include(reddit.urls, namespace='reddit', app_name='reddit')),
+                       url(r'^account/', include(account.urls, namespace='account', app_name='account'))
+                       # url(r'^chan/', include(chan.urls, namespace='chan', app_name=chan)),
+                       # url(r'^songtaste/', include(songtaste.urls, namespace='songtaste', app_name='songtaste'))
                        )
 
 handler404 = 'core.views.errors_handler_view'
