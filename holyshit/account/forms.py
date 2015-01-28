@@ -3,4 +3,3 @@
 # FILE_NAME    : 
 # AUTHOR       : younger shen
 
-class UserLoginForm()

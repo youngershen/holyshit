@@ -1,3 +1,11 @@
 unresize-textarea{
     resize:none;
 }
+.audiojs {
+    height: 35px;
+    background: #404040;
+    width: 200px;
+}
+.scrubber{
+    width:100px;
+}

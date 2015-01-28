@@ -18,22 +18,31 @@ $("#add_post_button").click(function(){
                 window.location.reload(true);
 
             }else{
-                $('#email_errors').html('');
-                $('#message_errors').html('');
                 if(data.errors)
                 {
                     var errors = JSON.parse(data.errors);
                     if(errors.email)
                     {
                         var html = "<div class='alert alert-warning' role='alert'>"+ errors.email[0].message +"</div>";
-                        $('#email_errors').append(html);
+                        $('#email_errors').html(html);
 
                     }
 
                     if(errors.message)
                     {
                         var html = "<div class='alert alert-warning' role='alert'>"+ errors.message[0].message +"</div>";
-                        $('#message_errors').append(html);
+                        $('#message_errors').html(html);
+                    }
+
+                    if(errors.image)
+                    {
+                        var html = "<div class='alert alert-warning' role='alert'>"+ errors.image[0].message +"</div>";
+                        $('#image_errors').html(html);
+                    }
+                    if(errors.__all__[0].code == 'music_type_error')
+                    {
+                        var html = "<div class='alert alert-warning' role='alert'>"+ errors.__all__[0].message +"</div>";
+                        $('#music_errors').html(html);
                     }
                 }
             }
@@ -124,5 +133,8 @@ window.onload = function()
     $('#flow_box').masonry({
         columnWidth: 90,
         itemSelector: '.flow_item'
+    });
+    audiojs.events.ready(function() {
+        var as = audiojs.createAll();
     });
 }

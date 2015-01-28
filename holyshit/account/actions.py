@@ -22,3 +22,4 @@ def login_action(request):
 
 @require_POST
 def regist_action(request):
+    pass

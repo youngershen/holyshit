@@ -19,7 +19,7 @@ class Board(Entity):
         return reverse('bbs:bbs_board_index_view', args=(self.slug,))
 
     def save(self, *args, **kwargs):
-        self.slug = '-'.join(unicode(unidecode(self.name)).split(' ')).lower()
+        self.slug = '-'.join(unicode(unidecode(self.name)).split(' ')).lower()[:-1]
         super(Board, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -34,12 +34,15 @@ class Board(Entity):
 
 
 class Thread(Entity):
+
     title = models.CharField(_('thread title'), max_length=255, db_index=True, null=True, blank=True)
     email = models.EmailField(_('thread author\'s email'), max_length=255, blank=True, null=True)
     author = models.CharField(_('thread author'), max_length=255, blank=True, null=True)
     ipaddress = models.IPAddressField(_('thread author\'s ip address'), max_length=255, null=True, blank=True)
     message = models.TextField(_('thread message'))
-    image = ImageField(_('thread image'), upload_to='thread/%Y/%m/%d', null=True, blank=True)
+
+    image = ImageField(_('thread image'), upload_to='thread/image/%Y/%m/%d', null=True, blank=True)
+    music = models.FileField(_('thread music'), upload_to='thread/music/%Y/%m/%d', null=True, blank=True)
     slug = models.CharField(_('thread slug'), max_length=255, unique=True, null=True, blank=True)
     click = models.BigIntegerField(_('thread click times'), default=0)
     link = models.CharField(_('website link'), max_length=255, null=True, blank=True)
@@ -54,7 +57,7 @@ class Thread(Entity):
     def hottest_thread():
         return Thread.objects.order_by('-click')[:20]
 
-    def ordered_comments(self):
+    def ordered2_comments(self):
         return self.comments.order_by('-created_at')
 
     def add_click(self):
@@ -68,6 +71,15 @@ class Thread(Entity):
     def down(self):
         setattr(self, 'click', self.click - 1)
         self.save()
+
+    def ordered_comments(self):
+        comments = self.comments.order_by('-created_at')
+        index = comments.count()
+        for comment in comments:
+            setattr(comment, 'index', index)
+            index -= 1
+
+        return comments
 
     def get_absolute_url(self):
         return reverse('bbs:bbs_thread', args=(self.slug,))

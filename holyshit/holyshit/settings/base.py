@@ -117,6 +117,11 @@ LOGIN_URL = '/account/login/'
 # login redirect url
 LOGIN_REDIRECT_URL = '/account/profile'
 
+# music allow file type
+MUSIC_ALLOW_FILE_TYPE = ['mp3', 'wma', 'flac', 'ape']
+# image allow file type
+IMAGE_ALLOW_FILE_TYPE = ['jpg', 'jpeg', 'gif', 'png']
+
 # loggers
 LOGGING = {
     'version': 1,
